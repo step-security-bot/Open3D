@@ -20,6 +20,9 @@ env:
   WEBRTC_COMMIT: ${{ github.event.inputs.webrtc_commit }}
   DEPOT_TOOLS_COMMIT: ${{ github.event.inputs.depot_tools_commit }}
 
+permissions:
+  contents: read
+
 jobs:
 
   Unix:

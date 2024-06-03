@@ -16,6 +16,9 @@ env:
   NPROC: 2
   GCE_CLI_GHA_VERSION: "416.0.0"
 
+permissions:
+  contents: read
+
 jobs:
   ubuntu-sycl:
     runs-on: ubuntu-latest

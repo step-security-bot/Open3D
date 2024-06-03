@@ -29,6 +29,9 @@ env:
   GCE_GPU_CI_SA: ${{ secrets.GCE_GPU_CI_SA }}
   GCE_CLI_GHA_VERSION: '416.0.0' # Fixed to avoid dependency on API changes
 
+permissions:
+  contents: read
+
 jobs:
   clean-gcloud-profiles:
     runs-on: ubuntu-latest
