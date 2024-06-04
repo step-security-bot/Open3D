@@ -12,8 +12,13 @@ jobs:
     # TODO: Convert to docker
     runs-on: ubuntu-18.04
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          egress-policy: audit
+
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
       - name: CMake configure
         run: |
           mkdir build
@@ -25,7 +30,7 @@ jobs:
           make -j$(nproc)
           cmake -E sha256sum vtk*.tar.gz > checksum_linux.txt
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: vtk_linux
           path: |
@@ -50,10 +55,15 @@ jobs:
             STATIC_RUNTIME: ON
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          egress-policy: audit
+
       - name: Disk space used
         run: Get-PSDrive
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
       - name: Config
         # Move build directory to C: https://github.com/actions/virtual-environments/issues/1341
         run: |
@@ -75,7 +85,7 @@ jobs:
           ls
           cmake -E sha256sum (get-item vtk*.tar.gz).Name > checksum_win_${{matrix.configuration}}.txt
       - name: Upload package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: vtk_windows_${{matrix.configuration}}
           path: |
@@ -89,8 +99,13 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          egress-policy: audit
+
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
       - name: CMake configure
         run: |
           mkdir build
@@ -102,7 +117,7 @@ jobs:
           make -j2
           cmake -E sha256sum vtk*.tar.gz > checksum_macos.txt
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: vtk_macos
           path: |
