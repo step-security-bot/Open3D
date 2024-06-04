@@ -40,8 +40,13 @@ jobs:
       DEVELOPER_BUILD: ${{ github.event.inputs.developer_build || 'ON' }}
       OPEN3D_CPU_RENDERING: true
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+        with:
+          egress-policy: audit
+
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
       - name: Maximize build space
         run: |
           source util/ci_utils.sh
@@ -74,14 +79,14 @@ jobs:
           fi
       - name: Upload package to GitHub artifacts
         if: ${{ env.BUILD_SHARED_LIBS == 'ON' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: open3d-devel-linux-x86_64-ML_${{ matrix.MLOPS }}
           path: open3d-devel-*.tar.xz
           if-no-files-found: error
       - name: Upload viewer to GitHub artifacts
         if: ${{ env.BUILD_SHARED_LIBS == 'OFF' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: open3d-viewer-Linux
           path: open3d-viewer-*-Linux.deb
